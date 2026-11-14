@@ -240,13 +240,13 @@ export default function AdminPage() {
   const suggestedNextCode = `MBR-00${100 + members.length + 1}`;
 
   const viewTitles: Record<AdminView, string> = {
-    DASHBOARD: "Dashboard Utama Resepsionis",
-    MEMBERS: "Data Seluruh Member Gymqoo",
-    ATTENTION: "Hub Pengingat Kadaluarsa WhatsApp",
-    SCANNER: "Modul Check-In Kartu Fisik",
-    CHECKIN_LOGS: "Log Kedatangan Member Hari Ini",
-    LEADS: "Pendaftar Baru Website (Leads)",
-    PLANS: "Daftar Paket & Tarif Membership",
+    DASHBOARD: "Ringkasan Operasional",
+    MEMBERS: "Direktori Member Gymqoo",
+    ATTENTION: "Tagihan & Reminder WhatsApp",
+    SCANNER: "Terminal Fast Check-In",
+    CHECKIN_LOGS: "Log Kehadiran Member",
+    LEADS: "Calon Member Website (Leads)",
+    PLANS: "Katalog Paket & Tarif",
   };
 
   return (
@@ -309,11 +309,11 @@ export default function AdminPage() {
                   className="p-5 rounded-2xl bg-white dark:bg-[#11131A] border border-slate-200 dark:border-borderDark space-y-2 shadow-sm cursor-pointer hover:border-slate-400 transition-all"
                 >
                   <div className="flex items-center justify-between text-slate-500 dark:text-zinc-400">
-                    <span className="text-xs font-mono uppercase font-semibold">Total Member</span>
+                    <span className="text-xs font-mono uppercase font-semibold">Semua Member</span>
                     <Users className="w-4 h-4 text-slate-400" />
                   </div>
                   <p className="font-display font-extrabold text-3xl text-slate-900 dark:text-white">{totalCount}</p>
-                  <span className="text-[11px] text-slate-500 dark:text-zinc-500 font-mono">Buka daftar member →</span>
+                  <span className="text-[11px] text-slate-500 dark:text-zinc-500 font-mono">Kelola database →</span>
                 </div>
 
                 <div
@@ -325,7 +325,7 @@ export default function AdminPage() {
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
                   </div>
                   <p className="font-display font-extrabold text-3xl text-emerald-600 dark:text-emerald-400">{activeCount}</p>
-                  <span className="text-[11px] text-slate-500 dark:text-zinc-500 font-mono">Masa aktif aman</span>
+                  <span className="text-[11px] text-slate-500 dark:text-zinc-500 font-mono">Status aktif normal</span>
                 </div>
 
                 <div
@@ -333,11 +333,11 @@ export default function AdminPage() {
                   className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-brand-amber/30 space-y-2 shadow-sm cursor-pointer hover:border-amber-500 transition-all"
                 >
                   <div className="flex items-center justify-between text-amber-700 dark:text-brand-amber">
-                    <span className="text-xs font-mono uppercase font-semibold">Segera Habis (H-7)</span>
+                    <span className="text-xs font-mono uppercase font-semibold">Tagihan (H-7)</span>
                     <AlertTriangle className="w-4 h-4 text-amber-500 animate-pulse" />
                   </div>
                   <p className="font-display font-extrabold text-3xl text-amber-700 dark:text-brand-amber">{expiringSoonCount}</p>
-                  <span className="text-[11px] text-amber-800/80 dark:text-zinc-400 font-mono">Kirim WA tagihan →</span>
+                  <span className="text-[11px] text-amber-800/80 dark:text-zinc-400 font-mono">Kirim reminder WA →</span>
                 </div>
 
                 <div
@@ -345,11 +345,11 @@ export default function AdminPage() {
                   className="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/20 border border-rose-300 dark:border-rose-500/30 space-y-2 shadow-sm cursor-pointer hover:border-rose-500 transition-all"
                 >
                   <div className="flex items-center justify-between text-rose-700 dark:text-rose-400">
-                    <span className="text-xs font-mono uppercase font-semibold">Kadaluarsa</span>
+                    <span className="text-xs font-mono uppercase font-semibold">Pass Expired</span>
                     <XCircle className="w-4 h-4 text-rose-500" />
                   </div>
                   <p className="font-display font-extrabold text-3xl text-rose-700 dark:text-rose-400">{expiredCount}</p>
-                  <span className="text-[11px] text-rose-800/80 dark:text-zinc-400 font-mono">Perlu follow-up →</span>
+                  <span className="text-[11px] text-rose-800/80 dark:text-zinc-400 font-mono">Follow-up perpanjangan →</span>
                 </div>
               </div>
 
@@ -418,11 +418,11 @@ export default function AdminPage() {
                 <div>
                   <h2 className="font-display font-bold text-lg text-slate-900 dark:text-white">
                     {currentView === "ATTENTION"
-                      ? "🚨 Daftar Member Yang Perlu Diingatkan Membayar"
-                      : "Daftar Member Gym & Pengingat Tagihan"}
+                      ? "⚡ Tagihan Jatuh Tempo (Action Required)"
+                      : "Direktori Member & Billing"}
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-zinc-400">
-                    Tekan tombol WhatsApp di kolom aksi untuk membuka chat dengan template pesan yang sudah terisi otomatis.
+                    Kelola data keanggotaan, perpanjangan, dan notifikasi jatuh tempo WhatsApp secara real-time.
                   </p>
                 </div>
 
@@ -623,7 +623,7 @@ export default function AdminPage() {
                                   title="Buka WhatsApp dengan pesan tagihan otomatis"
                                 >
                                   <MessageSquare className="w-3.5 h-3.5" />
-                                  Ingatkan WA
+                                  Chat WA
                                 </a>
 
                                 <button
@@ -632,7 +632,7 @@ export default function AdminPage() {
                                   title="Ubah Tanggal / Perpanjang Membership"
                                 >
                                   <RefreshCw className="w-3.5 h-3.5" />
-                                  <span>Edit / Perpanjang</span>
+                                  <span>Perpanjang</span>
                                 </button>
 
                                 <button

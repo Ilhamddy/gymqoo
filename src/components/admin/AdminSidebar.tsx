@@ -48,43 +48,43 @@ export default function AdminSidebar({
   const menuItems: { id: AdminView; label: string; icon: React.ElementType; badge?: string | number; badgeColor?: string }[] = [
     {
       id: "DASHBOARD",
-      label: "Dashboard Utama",
+      label: "Ringkasan Operasional",
       icon: LayoutDashboard,
     },
     {
       id: "MEMBERS",
-      label: "Semua Member",
+      label: "Direktori Member",
       icon: Users,
       badge: totalMembers,
       badgeColor: "bg-slate-200 dark:bg-surface text-slate-700 dark:text-zinc-300",
     },
     {
       id: "ATTENTION",
-      label: "Pengingat WA (H-7)",
+      label: "Tagihan & Reminder WA",
       icon: Bell,
       badge: attentionCount > 0 ? attentionCount : undefined,
       badgeColor: "bg-amber-500 text-black font-bold animate-pulse",
     },
     {
       id: "SCANNER",
-      label: "Check-In Kartu Fisik",
+      label: "Fast Check-In",
       icon: QrCode,
     },
     {
       id: "CHECKIN_LOGS",
-      label: "Log Kedatangan Hari Ini",
+      label: "Log Kehadiran",
       icon: Clock,
     },
     {
       id: "LEADS",
-      label: "Pendaftar Baru Website",
+      label: "Calon Member (Leads)",
       icon: UserCheck,
       badge: leadsCount > 0 ? leadsCount : undefined,
       badgeColor: "bg-emerald-500 text-white font-bold",
     },
     {
       id: "PLANS",
-      label: "Paket & Tarif Gym",
+      label: "Katalog Paket & Tarif",
       icon: CreditCard,
     },
   ];
@@ -149,14 +149,14 @@ export default function AdminSidebar({
               }}
               className="w-full py-2.5 px-4 rounded-xl bg-lime-600 hover:bg-lime-700 text-white dark:bg-brand-neon dark:text-black font-display font-bold text-xs uppercase tracking-wider dark:hover:bg-brand-neonHover transition-all flex items-center justify-center gap-2 shadow-sm dark:shadow-[0_0_15px_rgba(204,255,0,0.25)] hover:scale-[1.01]"
             >
-              <span>+ Pendaftaran Member</span>
+              <span>+ Member Baru</span>
             </button>
           </div>
 
           {/* Navigation Links */}
           <nav className="p-4 space-y-1">
             <p className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold">
-              Menu Navigasi
+              Menu Operasional
             </p>
 
             {menuItems.map((item) => {

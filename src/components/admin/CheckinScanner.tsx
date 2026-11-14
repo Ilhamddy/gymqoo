@@ -90,10 +90,10 @@ export default function CheckinScanner({
           </div>
           <div>
             <h3 className="font-display font-bold text-base text-slate-900 dark:text-white">
-              Pemeriksaan Kartu Fisik (Front Desk Check-In)
+              Fast Check-In (Kartu Fisik / ID)
             </h3>
             <p className="text-xs text-slate-500 dark:text-zinc-400">
-              Ketik Nomor Kartu Member (misal: <span className="font-mono text-slate-700 dark:text-zinc-300 font-semibold">MBR-00101</span>) atau scan barcode kartu.
+              Scan barcode kartu atau ketik ID Member (misal: <span className="font-mono text-slate-700 dark:text-zinc-300 font-semibold">MBR-00101</span>).
             </p>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function CheckinScanner({
           <div className="relative flex-1 sm:w-64">
             <input
               type="text"
-              placeholder="Input Nomor Kartu..."
+              placeholder="Scan barcode / ID member..."
               value={inputCode}
               onChange={(e) => setInputCode(e.target.value)}
               className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 dark:bg-surface border border-slate-200 dark:border-borderDark text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-slate-900 dark:focus:border-brand-neon transition-all"
@@ -114,7 +114,7 @@ export default function CheckinScanner({
             className="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-black dark:bg-surface dark:border dark:border-borderDark dark:hover:border-brand-neon dark:text-white dark:hover:text-brand-neon text-xs font-semibold transition-all flex items-center gap-1.5 flex-shrink-0"
           >
             <UserCheck className="w-3.5 h-3.5" />
-            Verifikasi
+            Check-In
           </button>
         </form>
       </div>

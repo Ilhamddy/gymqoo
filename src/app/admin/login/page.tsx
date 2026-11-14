@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
                 GYM<span className="text-lime-600 dark:text-brand-neon">QOO</span>
               </span>
               <p className="text-xs text-slate-500 dark:text-zinc-400 font-mono mt-1">
-                Portal Masuk Staf Resepsionis & Admin
+                Staff Operations Terminal • Petung
               </p>
             </div>
           </div>

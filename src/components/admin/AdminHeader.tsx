@@ -53,7 +53,7 @@ export default function AdminHeader({
                   {currentViewTitle}
                 </h1>
                 <span className="hidden sm:inline-block text-[10px] font-mono uppercase bg-lime-500/15 text-lime-700 dark:text-brand-neon px-2 py-0.5 rounded border border-lime-500/30 font-bold">
-                  Resepsionis Gymqoo
+                  Front Desk Pro
                 </span>
                 <span
                   title={isSupabase ? "Terkoneksi langsung ke Supabase Cloud Database" : "Berjalan dalam mode Offline LocalStorage (Masukkan URL & Key Supabase di .env.local untuk menghubungkan)"}
@@ -68,7 +68,7 @@ export default function AdminHeader({
                 </span>
               </div>
               <p className="hidden md:block text-xs text-slate-500 dark:text-zinc-400 font-mono">
-                Sistem Operasional & Pengingat Tagihan WhatsApp • Petung, Penajam
+                Gymqoo Operations Control • Petung, Penajam
               </p>
             </div>
           </div>
