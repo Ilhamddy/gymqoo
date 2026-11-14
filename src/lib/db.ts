@@ -67,30 +67,53 @@ export async function getMembers(): Promise<Member[]> {
 }
 
 /**
+ * Helper untuk memastikan UUID valid jika id bertipe string non-UUID
+ */
+function isValidUuid(id: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+}
+
+/**
  * Menyimpan member baru ke Supabase & LocalStorage
  */
-export async function createMember(newMember: Member): Promise<boolean> {
-  let supabaseSuccess = false;
+export async function createMember(newMember: Member): Promise<{ success: boolean; member: Member }> {
+  let createdMember = { ...newMember };
 
   if (isSupabaseConfigured && supabase) {
     try {
-      const { error } = await supabase.from('members').insert([
-        {
-          id: newMember.id,
-          member_code: newMember.member_code,
-          full_name: newMember.full_name,
-          phone_number: newMember.phone_number,
-          gender: newMember.gender,
-          plan_name: newMember.plan_name,
-          start_date: newMember.start_date,
-          expiry_date: newMember.expiry_date,
-          status: newMember.status,
-          last_reminded_at: newMember.last_reminded_at || null,
-        },
-      ]);
-      if (!error) supabaseSuccess = true;
+      const payload: Record<string, any> = {
+        member_code: newMember.member_code,
+        full_name: newMember.full_name,
+        phone_number: newMember.phone_number,
+        gender: newMember.gender,
+        plan_name: newMember.plan_name,
+        start_date: newMember.start_date,
+        expiry_date: newMember.expiry_date,
+        status: newMember.status,
+        last_reminded_at: newMember.last_reminded_at || null,
+      };
+
+      // Hanya kirim id jika valid UUID, jika tidak biarkan Supabase membuatkan UUID otomatis
+      if (isValidUuid(newMember.id)) {
+        payload.id = newMember.id;
+      }
+
+      const { data, error } = await supabase
+        .from('members')
+        .insert([payload])
+        .select()
+        .single();
+
+      if (error) {
+        console.error('[Supabase] Gagal menyimpan member ke database cloud:', error);
+      } else if (data) {
+        createdMember = {
+          ...createdMember,
+          id: data.id,
+        };
+      }
     } catch (err) {
-      console.warn('[Supabase] Insert member failed:', err);
+      console.error('[Supabase] Insert member exception:', err);
     }
   }
 
@@ -98,11 +121,11 @@ export async function createMember(newMember: Member): Promise<boolean> {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem(STORAGE_MEMBERS_KEY);
     const list: Member[] = saved ? JSON.parse(saved) : initialMembers;
-    const updated = [newMember, ...list];
+    const updated = [createdMember, ...list.filter((m) => m.id !== newMember.id)];
     localStorage.setItem(STORAGE_MEMBERS_KEY, JSON.stringify(updated));
   }
 
-  return supabaseSuccess || true;
+  return { success: true, member: createdMember };
 }
 
 /**
@@ -209,18 +232,30 @@ export async function getCheckIns(): Promise<CheckInLog[]> {
  * Mencatat kedatangan baru (check-in)
  */
 export async function createCheckIn(log: CheckInLog): Promise<boolean> {
+  let createdLog = { ...log };
+
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from('check_ins').insert([
-        {
-          id: log.id,
-          member_id: log.member_id,
-          member_code: log.member_code,
-          member_name: log.member_name,
-          check_in_time: log.check_in_time,
-          status_at_checkin: log.status_at_checkin,
-        },
-      ]);
+      const payload: Record<string, any> = {
+        member_code: log.member_code,
+        member_name: log.member_name,
+        check_in_time: (log.check_in_time || '').substring(0, 20),
+        status_at_checkin: log.status_at_checkin,
+      };
+
+      if (isValidUuid(log.id)) {
+        payload.id = log.id;
+      }
+      if (isValidUuid(log.member_id)) {
+        payload.member_id = log.member_id;
+      }
+
+      const { data, error } = await supabase.from('check_ins').insert([payload]).select().single();
+      if (error) {
+        console.error('[Supabase] Insert check-in failed:', error);
+      } else if (data) {
+        createdLog = { ...createdLog, id: data.id };
+      }
     } catch (err) {
       console.warn('[Supabase] Insert check-in failed:', err);
     }
@@ -229,7 +264,7 @@ export async function createCheckIn(log: CheckInLog): Promise<boolean> {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem(STORAGE_CHECKINS_KEY);
     const list: CheckInLog[] = saved ? JSON.parse(saved) : [];
-    const updated = [log, ...list].slice(0, 100);
+    const updated = [createdLog, ...list].slice(0, 100);
     localStorage.setItem(STORAGE_CHECKINS_KEY, JSON.stringify(updated));
   }
 

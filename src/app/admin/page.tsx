@@ -142,13 +142,17 @@ export default function AdminPage() {
   };
 
   const handleAddMember = async (newMember: Member) => {
-    const updated = [newMember, ...members];
-    setMembers(updated);
-    await createMember(newMember);
+    // Simpan ke database Supabase
+    const result = await createMember(newMember);
+    const savedMember = result.member;
+    
+    // Update local state dengan ID yang sudah sinkron (UUID dari Supabase)
+    setMembers((prev) => [savedMember, ...prev.filter((m) => m.id !== newMember.id)]);
+    
     addToast(
       "add",
       "Member Berhasil Ditambahkan!",
-      `${newMember.full_name} (${newMember.member_code}) berhasil didaftarkan ke paket ${newMember.plan_name}.`
+      `${savedMember.full_name} (${savedMember.member_code}) berhasil didaftarkan ke paket ${savedMember.plan_name}.`
     );
   };
 
